@@ -1,0 +1,199 @@
+//@version=6
+indicator("ICT Liquidity Engine - Base", overlay=true, max_lines_count=50, max_labels_count=50)
+
+
+//━━━━━━━━━━━━━━━━━━
+// SETTINGS
+//━━━━━━━━━━━━━━━━━━
+
+showPDH = input.bool(true, "Show PDH")
+showPDL = input.bool(true, "Show PDL")
+
+pdhColor = input.color(color.orange, "PDH Color")
+pdlColor = input.color(color.blue, "PDL Color")
+
+lineWidth = input.int(2, "Line Width", minval=1, maxval=5)
+
+showLabels = input.bool(true, "Show Labels")
+
+
+//━━━━━━━━━━━━━━━━━━
+// NY DAY ENGINE
+//━━━━━━━━━━━━━━━━━━
+
+var float dayHigh = na
+var float dayLow = na
+
+var int dayHighTime = na
+var int dayLowTime = na
+
+
+var float pdh = na
+var float pdl = na
+
+var int pdhTime = na
+var int pdlTime = na
+
+
+nyDay = dayofmonth(time, "America/New_York")
+nyMonth = month(time, "America/New_York")
+nyYear = year(time, "America/New_York")
+
+dayID = nyYear * 10000 + nyMonth * 100 + nyDay
+
+newDay = dayID != dayID[1]
+
+
+if na(dayHigh)
+
+    dayHigh := high
+    dayLow := low
+
+    dayHighTime := time
+    dayLowTime := time
+
+
+else
+
+    if newDay
+
+        pdh := dayHigh
+        pdl := dayLow
+
+        pdhTime := dayHighTime
+        pdlTime := dayLowTime
+
+
+        dayHigh := high
+        dayLow := low
+
+        dayHighTime := time
+        dayLowTime := time
+
+
+    else
+
+        if high > dayHigh
+
+            dayHigh := high
+            dayHighTime := time
+
+
+        if low < dayLow
+
+            dayLow := low
+            dayLowTime := time
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// DRAW PDH / PDL
+//━━━━━━━━━━━━━━━━━━
+
+var line pdhLine = na
+var line pdlLine = na
+
+var label pdhLabel = na
+var label pdlLabel = na
+
+
+
+// PDH
+
+if showPDH and not na(pdh)
+
+    if na(pdhLine)
+
+        pdhLine := line.new(
+             x1 = pdhTime,
+             y1 = pdh,
+             x2 = time,
+             y2 = pdh,
+             xloc = xloc.bar_time,
+             extend = extend.right,
+             color = pdhColor,
+             width = lineWidth)
+
+    else
+
+        line.set_xy1(
+             pdhLine,
+             pdhTime,
+             pdh)
+
+        line.set_xy2(
+             pdhLine,
+             time,
+             pdh)
+
+
+    if showLabels
+
+        if na(pdhLabel)
+
+            pdhLabel := label.new(
+                 x = time,
+                 y = pdh,
+                 text = "PDH",
+                 xloc = xloc.bar_time,
+                 style = label.style_label_left,
+                 color = pdhColor,
+                 textcolor = color.white)
+
+        else
+
+            label.set_xy(
+                 pdhLabel,
+                 time,
+                 pdh)
+
+
+
+// PDL
+
+if showPDL and not na(pdl)
+
+    if na(pdlLine)
+
+        pdlLine := line.new(
+             x1 = pdlTime,
+             y1 = pdl,
+             x2 = time,
+             y2 = pdl,
+             xloc = xloc.bar_time,
+             extend = extend.right,
+             color = pdlColor,
+             width = lineWidth)
+
+    else
+
+        line.set_xy1(
+             pdlLine,
+             pdlTime,
+             pdl)
+
+        line.set_xy2(
+             pdlLine,
+             time,
+             pdl)
+
+
+    if showLabels
+
+        if na(pdlLabel)
+
+            pdlLabel := label.new(
+                 x = time,
+                 y = pdl,
+                 text = "PDL",
+                 xloc = xloc.bar_time,
+                 style = label.style_label_left,
+                 color = pdlColor,
+                 textcolor = color.white)
+
+        else
+
+            label.set_xy(
+                 pdlLabel,
+                 time,
+                 pdl)
