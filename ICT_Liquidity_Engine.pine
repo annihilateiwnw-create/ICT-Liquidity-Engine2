@@ -197,3 +197,151 @@ if showPDL and not na(pdl)
                  pdlLabel,
                  time,
                  pdl)
+//━━━━━━━━━━━━━━━━━━
+// WEEK ENGINE
+//━━━━━━━━━━━━━━━━━━
+
+showPWH = input.bool(true, "Show PWH")
+showPWL = input.bool(true, "Show PWL")
+
+pwhColor = input.color(color.yellow, "PWH Color")
+pwlColor = input.color(color.purple, "PWL Color")
+
+weekLineWidth = input.int(2, "Week Line Width", minval=1, maxval=5)
+
+
+//━━━━━━━━━━━━━━━━━━
+// WEEK DATA
+//━━━━━━━━━━━━━━━━━━
+
+var float weekHigh = na
+var float weekLow = na
+
+var int weekHighTime = na
+var int weekLowTime = na
+
+
+var float pwh = na
+var float pwl = na
+
+var int pwhTime = na
+var int pwlTime = na
+
+
+
+nyWeek = weekofyear(time, "America/New_York")
+nyYearWeek = year(time, "America/New_York")
+
+weekID = nyYearWeek * 100 + nyWeek
+
+newWeek = weekID != weekID[1]
+
+
+
+if na(weekHigh)
+
+    weekHigh := high
+    weekLow := low
+
+    weekHighTime := time
+    weekLowTime := time
+
+
+else
+
+    if newWeek
+
+        pwh := weekHigh
+        pwl := weekLow
+
+        pwhTime := weekHighTime
+        pwlTime := weekLowTime
+
+
+        weekHigh := high
+        weekLow := low
+
+        weekHighTime := time
+        weekLowTime := time
+
+
+    else
+
+        if high > weekHigh
+
+            weekHigh := high
+            weekHighTime := time
+
+
+        if low < weekLow
+
+            weekLow := low
+            weekLowTime := time
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// DRAW PWH
+//━━━━━━━━━━━━━━━━━━
+
+var line pwhLine = na
+var line pwlLine = na
+
+
+if showPWH and not na(pwh)
+
+    if na(pwhLine)
+
+        pwhLine := line.new(
+             x1 = pwhTime,
+             y1 = pwh,
+             x2 = time,
+             y2 = pwh,
+             xloc = xloc.bar_time,
+             extend = extend.right,
+             color = pwhColor,
+             width = weekLineWidth)
+
+    else
+
+        line.set_xy1(
+             pwhLine,
+             pwhTime,
+             pwh)
+
+        line.set_xy2(
+             pwhLine,
+             time,
+             pwh)
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// DRAW PWL
+//━━━━━━━━━━━━━━━━━━
+
+if showPWL and not na(pwl)
+
+    if na(pwlLine)
+
+        pwlLine := line.new(
+             x1 = pwlTime,
+             y1 = pwl,
+             x2 = time,
+             y2 = pwl,
+             xloc = xloc.bar_time,
+             extend = extend.right,
+             color = pwlColor,
+             width = weekLineWidth)
+
+    else
+
+        line.set_xy1(
+             pwlLine,
+             pwlTime,
+             pwl)
+
+        line.set_xy2(
+             pwlLine,
+             time,
+             pwl)
