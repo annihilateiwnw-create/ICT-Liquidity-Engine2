@@ -3,19 +3,39 @@ indicator("ICT Liquidity Engine - Base", overlay=true, max_lines_count=50, max_l
 
 
 //━━━━━━━━━━━━━━━━━━
-// SETTINGS
+// PD LEVEL SETTINGS
 //━━━━━━━━━━━━━━━━━━
 
 showPDH = input.bool(true, "Show PDH")
 showPDL = input.bool(true, "Show PDL")
 
-pdhColor = input.color(color.orange, "PDH Color")
-pdlColor = input.color(color.blue, "PDL Color")
+pdhColor = input.color(color.green, "PDH Color")
+pdlColor = input.color(color.red, "PDL Color")
 
-lineWidth = input.int(2, "Line Width", minval=1, maxval=5)
+lineWidth = input.int(2, "PD Line Width", minval=1, maxval=5)
 
-showLabels = input.bool(true, "Show Labels")
+showPDLabels = input.bool(true, "Show PDH/PDL Labels")
 
+pdhLabelColor = input.color(color.green, "PDH Label Color")
+pdlLabelColor = input.color(color.red, "PDL Label Color")
+
+//━━━━━━━━━━━━━━━━━━
+// PM LEVEL SETTINGS
+//━━━━━━━━━━━━━━━━━━
+
+showPMH = input.bool(true, "Show PMH")
+showPML = input.bool(true, "Show PML")
+
+pmhColor = input.color(color.orange, "PMH Color")
+pmlColor = input.color(color.blue, "PML Color")
+
+monthLineWidth = input.int(2, "Month Line Width", minval=1, maxval=5)
+
+
+showPMLabels = input.bool(true, "Show PMH/PML Labels")
+
+pmhLabelColor = input.color(color.orange, "PMH Label Color")
+pmlLabelColor = input.color(color.blue, "PML Label Color")
 
 //━━━━━━━━━━━━━━━━━━
 // NY DAY ENGINE
@@ -84,7 +104,18 @@ else
             dayLow := low
             dayLowTime := time
 
+//━━━━━━━━━━━━━━━━━━
+// TIMEFRAME VISIBILITY
+//━━━━━━━━━━━━━━━━━━
 
+// PDH / PDL → до 4H включительно
+showPDLevels = timeframe.in_seconds() <= timeframe.in_seconds("240")
+
+// PWH / PWL → до 3D включительно
+showPWLevels = timeframe.in_seconds() <= timeframe.in_seconds("3D")
+
+// PMH / PML → всегда
+showPMLevels = true
 
 //━━━━━━━━━━━━━━━━━━
 // DRAW PDH / PDL
@@ -98,9 +129,11 @@ var label pdlLabel = na
 
 
 
-// PDH
+//━━━━━━━━━━━━━━━━━━
+// DRAW PDH
+//━━━━━━━━━━━━━━━━━━
 
-if showPDH and not na(pdh)
+if showPDH and showPDLevels and not na(pdh)
 
     if na(pdhLine)
 
@@ -127,7 +160,7 @@ if showPDH and not na(pdh)
              pdh)
 
 
-    if showLabels
+    if showPDLabels
 
         if na(pdhLabel)
 
@@ -137,7 +170,7 @@ if showPDH and not na(pdh)
                  text = "PDH",
                  xloc = xloc.bar_time,
                  style = label.style_label_left,
-                 color = pdhColor,
+                 color = pdhLabelColor,
                  textcolor = color.white)
 
         else
@@ -149,9 +182,11 @@ if showPDH and not na(pdh)
 
 
 
-// PDL
+//━━━━━━━━━━━━━━━━━━
+// DRAW PDL
+//━━━━━━━━━━━━━━━━━━
 
-if showPDL and not na(pdl)
+if showPDL and showPDLevels and not na(pdl)
 
     if na(pdlLine)
 
@@ -178,7 +213,7 @@ if showPDL and not na(pdl)
              pdl)
 
 
-    if showLabels
+    if showPDLabels
 
         if na(pdlLabel)
 
@@ -188,7 +223,7 @@ if showPDL and not na(pdl)
                  text = "PDL",
                  xloc = xloc.bar_time,
                  style = label.style_label_left,
-                 color = pdlColor,
+                 color = pdlLabelColor,
                  textcolor = color.white)
 
         else
@@ -208,6 +243,10 @@ pwhColor = input.color(color.yellow, "PWH Color")
 pwlColor = input.color(color.purple, "PWL Color")
 
 weekLineWidth = input.int(2, "Week Line Width", minval=1, maxval=5)
+showPWLabels = input.bool(true, "Show PWH/PWL Labels")
+
+pwhLabelColor = input.color(color.yellow, "PWH Label Color")
+pwlLabelColor = input.color(color.purple, "PWL Label Color")
 
 
 //━━━━━━━━━━━━━━━━━━
@@ -279,16 +318,20 @@ else
             weekLowTime := time
 
 
-
 //━━━━━━━━━━━━━━━━━━
-// DRAW PWH
+// WEEK DRAW OBJECTS
 //━━━━━━━━━━━━━━━━━━
 
 var line pwhLine = na
 var line pwlLine = na
 
+var label pwhLabel = na
+var label pwlLabel = na
+//━━━━━━━━━━━━━━━━━━
+// DRAW PWH
+//━━━━━━━━━━━━━━━━━━
 
-if showPWH and not na(pwh)
+if showPWH and showPWLevels and not na(pwh)
 
     if na(pwhLine)
 
@@ -315,12 +358,32 @@ if showPWH and not na(pwh)
              pwh)
 
 
+    if showPWLabels
+
+        if na(pwhLabel)
+
+            pwhLabel := label.new(
+                 x = time,
+                 y = pwh,
+                 text = "PWH",
+                 xloc = xloc.bar_time,
+                 style = label.style_label_left,
+                 color = pwhLabelColor,
+                 textcolor = color.white)
+
+        else
+
+            label.set_xy(
+                 pwhLabel,
+                 time,
+                 pwh)
+
 
 //━━━━━━━━━━━━━━━━━━
 // DRAW PWL
 //━━━━━━━━━━━━━━━━━━
 
-if showPWL and not na(pwl)
+if showPWL and showPWLevels and not na(pwl)
 
     if na(pwlLine)
 
@@ -346,3 +409,229 @@ if showPWL and not na(pwl)
              time,
              pwl)
 
+
+    if showPWLabels
+
+        if na(pwlLabel)
+
+            pwlLabel := label.new(
+                 x = time,
+                 y = pwl,
+                 text = "PWL",
+                 xloc = xloc.bar_time,
+                 style = label.style_label_left,
+                 color = pwlLabelColor,
+                 textcolor = color.white)
+
+        else
+
+            label.set_xy(
+                 pwlLabel,
+                 time,
+                 pwl)    
+                 
+                
+            
+        
+    
+//━━━━━━━━━━━━━━━━━━
+// MONTH ENGINE
+//━━━━━━━━━━━━━━━━━━
+
+var float monthHigh = na
+var float monthLow = na
+
+var int monthHighTime = na
+var int monthLowTime = na
+
+
+var float pmh = na
+var float pml = na
+
+var int pmhTime = na
+var int pmlTime = na
+
+
+// Source selection
+useWeeklyMonth = timeframe.isweekly or timeframe.ismonthly
+
+
+monthSourceTime = useWeeklyMonth ? time("W") : time("D")
+
+monthSourceHigh = useWeeklyMonth ? request.security(syminfo.tickerid, "W", high) : request.security(syminfo.tickerid, "D", high)
+
+monthSourceLow = useWeeklyMonth ? request.security(syminfo.tickerid, "W", low) : request.security(syminfo.tickerid, "D", low)
+
+
+monthValue = month(monthSourceTime, "America/New_York")
+yearValue = year(monthSourceTime, "America/New_York")
+
+monthID = yearValue * 100 + monthValue
+
+newMonth = monthID != monthID[1]
+
+
+
+if na(monthHigh)
+
+    monthHigh := monthSourceHigh
+    monthLow := monthSourceLow
+
+    monthHighTime := monthSourceTime
+    monthLowTime := monthSourceTime
+
+
+else
+
+    if newMonth
+
+        pmh := monthHigh
+        pml := monthLow
+
+        pmhTime := monthHighTime
+        pmlTime := monthLowTime
+
+
+        monthHigh := monthSourceHigh
+        monthLow := monthSourceLow
+
+        monthHighTime := monthSourceTime
+        monthLowTime := monthSourceTime
+
+
+    else
+
+        if monthSourceHigh > monthHigh
+
+            monthHigh := monthSourceHigh
+            monthHighTime := monthSourceTime
+
+
+        if monthSourceLow < monthLow
+
+            monthLow := monthSourceLow
+            monthLowTime := monthSourceTime
+            
+        
+    
+
+          
+        
+    
+//━━━━━━━━━━━━━━━━━━
+// MONTH DRAW OBJECTS
+//━━━━━━━━━━━━━━━━━━
+
+var line pmhLine = na
+var line pmlLine = na
+
+var label pmhLabel = na
+var label pmlLabel = na
+
+//━━━━━━━━━━━━━━━━━━
+// DRAW PMH
+//━━━━━━━━━━━━━━━━━━
+
+if showPMH and not na(pmh)
+
+    if na(pmhLine)
+
+        pmhLine := line.new(
+             x1 = pmhTime,
+             y1 = pmh,
+             x2 = time,
+             y2 = pmh,
+             xloc = xloc.bar_time,
+             extend = extend.right,
+             color = pmhColor,
+             width = monthLineWidth)
+
+    else
+
+        line.set_xy1(
+             pmhLine,
+             pmhTime,
+             pmh)
+
+        line.set_xy2(
+             pmhLine,
+             time,
+             pmh)
+
+
+    if showPMLabels
+
+        if na(pmhLabel)
+
+            pmhLabel := label.new(
+                 x = time,
+                 y = pmh,
+                 text = "PMH",
+                 xloc = xloc.bar_time,
+                 style = label.style_label_left,
+                 color = pmhLabelColor,
+                 textcolor = color.white)
+
+        else
+
+            label.set_xy(
+                 pmhLabel,
+                 time,
+                 pmh)
+
+ //━━━━━━━━━━━━━━━━━━
+// DRAW PML
+//━━━━━━━━━━━━━━━━━━
+
+if showPML and not na(pml)
+
+    if na(pmlLine)
+
+        pmlLine := line.new(
+             x1 = pmlTime,
+             y1 = pml,
+             x2 = time,
+             y2 = pml,
+             xloc = xloc.bar_time,
+             extend = extend.right,
+             color = pmlColor,
+             width = monthLineWidth)
+
+    else
+
+        line.set_xy1(
+             pmlLine,
+             pmlTime,
+             pml)
+
+        line.set_xy2(
+             pmlLine,
+             time,
+             pml)
+
+
+    if showPMLabels
+
+        if na(pmlLabel)
+
+            pmlLabel := label.new(
+                 x = time,
+                 y = pml,
+                 text = "PML",
+                 xloc = xloc.bar_time,
+                 style = label.style_label_left,
+                 color = pmlLabelColor,
+                 textcolor = color.white)
+
+        else
+
+            label.set_xy(
+                 pmlLabel,
+                 time,
+                 pml)   
+                 //━━━━━━━━━━━━━━━━━━
+// PMH DEBUG
+//━━━━━━━━━━━━━━━━━━
+            
+        
+  
