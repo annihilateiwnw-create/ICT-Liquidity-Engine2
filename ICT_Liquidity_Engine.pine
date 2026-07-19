@@ -103,6 +103,53 @@ else
 
             dayLow := low
             dayLowTime := time
+//━━━━━━━━━━━━━━━━━━
+// OPEN DAY SETTINGS
+//━━━━━━━━━━━━━━━━━━
+
+showOpenDay = input.bool(true, "Show Open Day")
+
+openDayColor = input.color(
+     color.gray,
+     "Open Day Color")
+
+openDayLabelColor = input.color(
+     color.gray,
+     "Open Day Label Color")
+
+openDayWidth = input.int(
+     1,
+     "Open Day Width",
+     minval=1,
+     maxval=5)
+
+openDayLength = input.int(
+     5,
+     "Open Day Length (bars)",
+     minval=2,
+     maxval=50)
+
+showOpenDayLabel = input.bool(
+     true,
+     "Show Open Day Label")
+//━━━━━━━━━━━━━━━━━━
+// OPEN DAY ENGINE
+//━━━━━━━━━━━━━━━━━━
+
+var float openDay = na
+var int openDayTime = na
+
+
+if na(openDay)
+
+    openDay := open
+    openDayTime := time
+
+
+if newDay
+
+    openDay := open
+    openDayTime := time
 
 //━━━━━━━━━━━━━━━━━━
 // TIMEFRAME VISIBILITY
@@ -629,9 +676,7 @@ if showPML and not na(pml)
                  pmlLabel,
                  time,
                  pml)   
-                 //━━━━━━━━━━━━━━━━━━
-// PMH DEBUG
-//━━━━━━━━━━━━━━━━━━
+                 
             
         
   
