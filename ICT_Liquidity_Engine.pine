@@ -9,33 +9,98 @@ indicator("ICT Liquidity Engine - Base", overlay=true, max_lines_count=50, max_l
 showPDH = input.bool(true, "Show PDH")
 showPDL = input.bool(true, "Show PDL")
 
-pdhColor = input.color(color.green, "PDH Color")
-pdlColor = input.color(color.red, "PDL Color")
 
-lineWidth = input.int(2, "PD Line Width", minval=1, maxval=5)
+pdhColor = input.color(
+     color.green,
+     "PDH Color")
 
-showPDLabels = input.bool(true, "Show PDH/PDL Labels")
+pdlColor = input.color(
+     color.red,
+     "PDL Color")
 
-pdhLabelColor = input.color(color.green, "PDH Label Color")
-pdlLabelColor = input.color(color.red, "PDL Label Color")
+
+lineWidth = input.int(
+     2,
+     "PD Line Width",
+     minval = 1,
+     maxval = 5)
+
+
+
+
+
+pwLabelOffset = input.int(
+     3,
+     "PW Label Offset (bars)",
+     minval = 0,
+     maxval = 50)
+
+
+pwLabelGap = input.int(
+     8,
+     "PW Label Gap (bars)",
+     minval = 0,
+     maxval = 50)
+
+
+pwLabelSize = input.string(
+     "Tiny",
+     "PW Label Size",
+     options = ["Tiny", "Small", "Normal"])
+
+
+
+
 
 //━━━━━━━━━━━━━━━━━━
-// PM LEVEL SETTINGS
+// PD LABEL SETTINGS
 //━━━━━━━━━━━━━━━━━━
 
-showPMH = input.bool(true, "Show PMH")
-showPML = input.bool(true, "Show PML")
-
-pmhColor = input.color(color.orange, "PMH Color")
-pmlColor = input.color(color.blue, "PML Color")
-
-monthLineWidth = input.int(2, "Month Line Width", minval=1, maxval=5)
+showPDLabels = input.bool(
+     true,
+     "Show PDH/PDL Labels")
 
 
-showPMLabels = input.bool(true, "Show PMH/PML Labels")
+pdhLabelText = input.string(
+     "Previous Day High",
+     "PDH Label Text")
 
-pmhLabelColor = input.color(color.orange, "PMH Label Color")
-pmlLabelColor = input.color(color.blue, "PML Label Color")
+
+pdlLabelText = input.string(
+     "Previous Day Low",
+     "PDL Label Text")
+
+
+pdhLabelColor = input.color(
+     color.green,
+     "PDH Label Color")
+
+
+pdlLabelColor = input.color(
+     color.red,
+     "PDL Label Color")
+
+
+pdLabelOffset = input.int(
+     3,
+     "PD Label Offset (bars)",
+     minval = 0,
+     maxval = 50)
+
+
+pdLabelGap = input.int(
+     8,
+     "PD Label Gap (bars)",
+     minval = 0,
+     maxval = 50)
+
+
+pdLabelSize = input.string(
+     "Tiny",
+     "PD Label Size",
+     options = ["Tiny", "Small", "Normal"])
+
+
 
 //━━━━━━━━━━━━━━━━━━
 // NY DAY ENGINE
@@ -107,31 +172,44 @@ else
 // OPEN DAY SETTINGS
 //━━━━━━━━━━━━━━━━━━
 
-showOpenDay = input.bool(true, "Show Open Day")
+showOpenDay = input.bool(
+     true,
+     "Show Open Day")
+
 
 openDayColor = input.color(
      color.gray,
      "Open Day Color")
 
+
 openDayLabelColor = input.color(
      color.gray,
      "Open Day Label Color")
 
+
 openDayWidth = input.int(
      1,
      "Open Day Width",
-     minval=1,
-     maxval=5)
+     minval = 1,
+     maxval = 5)
+
 
 openDayLength = input.int(
      5,
      "Open Day Length (bars)",
-     minval=2,
-     maxval=50)
+     minval = 2,
+     maxval = 50)
+
 
 showOpenDayLabel = input.bool(
      true,
      "Show Open Day Label")
+
+
+openDayLabelSize = input.string(
+     "Tiny",
+     "Open Day Label Size",
+     options = ["Tiny", "Small", "Normal"])
 //━━━━━━━━━━━━━━━━━━
 // OPEN DAY ENGINE
 //━━━━━━━━━━━━━━━━━━
@@ -150,6 +228,211 @@ if newDay
 
     openDay := open
     openDayTime := time
+    
+//━━━━━━━━━━━━━━━━━━
+// OPEN DAY OBJECTS
+//━━━━━━━━━━━━━━━━━━
+
+var line openDayLine = na
+
+var label openDayLabel = na
+//━━━━━━━━━━━━━━━━━━
+// DRAW OPEN DAY
+//━━━━━━━━━━━━━━━━━━
+
+if showOpenDay and not na(openDay)
+
+    lineEndTime = time + (openDayLength * (time - time[1]))
+
+
+    if na(openDayLine)
+
+        openDayLine := line.new(
+             x1 = openDayTime,
+             y1 = openDay,
+             x2 = lineEndTime,
+             y2 = openDay,
+             xloc = xloc.bar_time,
+             color = openDayColor,
+             width = openDayWidth,
+             style = line.style_dotted)
+
+    else
+
+        line.set_xy1(
+             openDayLine,
+             openDayTime,
+             openDay)
+
+        line.set_xy2(
+             openDayLine,
+             lineEndTime,
+             openDay)
+
+
+
+    if showOpenDayLabel
+
+        if na(openDayLabel)
+
+            openDayLabel := label.new(
+                 x = lineEndTime,
+                 y = openDay,
+                 text = "Open Day",
+                 xloc = xloc.bar_time,
+                 style = label.style_none,
+                 color = na,
+                 textcolor = openDayLabelColor,
+                 size = openDayLabelSize == "Normal" ? size.normal : openDayLabelSize == "Small" ? size.small : size.tiny)
+
+        else
+
+            label.set_xy(
+                 openDayLabel,
+                 lineEndTime,
+                 openDay)
+
+//━━━━━━━━━━━━━━━━━━
+// OPEN WEEK SETTINGS
+//━━━━━━━━━━━━━━━━━━
+
+showOpenWeek = input.bool(
+     true,
+     "Show Open Week")
+
+
+openWeekColor = input.color(
+     color.gray,
+     "Open Week Color")
+
+
+openWeekLabelColor = input.color(
+     color.gray,
+     "Open Week Label Color")
+
+
+openWeekWidth = input.int(
+     1,
+     "Open Week Width",
+     minval = 1,
+     maxval = 5)
+
+
+openWeekLength = input.int(
+     5,
+     "Open Week Length (bars)",
+     minval = 2,
+     maxval = 50)
+
+
+showOpenWeekLabel = input.bool(
+     true,
+     "Show Open Week Label")
+
+
+openWeekLabelSize = input.string(
+     "Tiny",
+     "Open Week Label Size",
+     options = ["Tiny", "Small", "Normal"])
+
+
+//━━━━━━━━━━━━━━━━━━
+// OPEN WEEK ENGINE
+//━━━━━━━━━━━━━━━━━━
+
+var float openWeek = na
+var int openWeekTime = na
+
+
+nyWeekDay = dayofweek(time, "America/New_York")
+
+nyWeek = weekofyear(time, "America/New_York")
+
+
+openWeekID = nyYear * 100 + nyWeek
+
+newOpenWeek = openWeekID != openWeekID[1]
+
+
+// First bar of script
+if na(openWeek)
+
+    openWeek := open
+    openWeekTime := time
+
+
+// NY Monday = weekly open
+if newOpenWeek or (nyWeekDay == dayofweek.monday and nyWeekDay[1] != dayofweek.monday)
+
+    openWeek := open
+    openWeekTime := time
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// OPEN WEEK OBJECTS
+//━━━━━━━━━━━━━━━━━━
+
+var line openWeekLine = na
+var label openWeekLabel = na
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// DRAW OPEN WEEK
+//━━━━━━━━━━━━━━━━━━
+
+if showOpenWeek and not na(openWeek)
+
+    lineEndTime = time + (openWeekLength * (time - time[1]))
+
+
+    if na(openWeekLine)
+
+        openWeekLine := line.new(
+             x1 = openWeekTime,
+             y1 = openWeek,
+             x2 = lineEndTime,
+             y2 = openWeek,
+             xloc = xloc.bar_time,
+             color = openWeekColor,
+             width = openWeekWidth,
+             style = line.style_dotted)
+
+    else
+
+        line.set_xy1(
+             openWeekLine,
+             openWeekTime,
+             openWeek)
+
+        line.set_xy2(
+             openWeekLine,
+             lineEndTime,
+             openWeek)
+
+
+
+    if showOpenWeekLabel
+
+        if na(openWeekLabel)
+
+            openWeekLabel := label.new(
+                 x = lineEndTime,
+                 y = openWeek,
+                 text = "Open Week",
+                 xloc = xloc.bar_time,
+                 style = label.style_none,
+                 color = na,
+                 textcolor = openWeekLabelColor,
+                 size = openWeekLabelSize == "Normal" ? size.normal : openWeekLabelSize == "Small" ? size.small : size.tiny)
+
+        else
+
+            label.set_xy(
+                 openWeekLabel,
+                 lineEndTime,
+                 openWeek)
 
 //━━━━━━━━━━━━━━━━━━
 // TIMEFRAME VISIBILITY
@@ -175,22 +458,25 @@ var label pdhLabel = na
 var label pdlLabel = na
 
 
-
 //━━━━━━━━━━━━━━━━━━
 // DRAW PDH
 //━━━━━━━━━━━━━━━━━━
 
 if showPDH and showPDLevels and not na(pdh)
 
+    pdhLabelX = time + (pdLabelOffset * timeframe.in_seconds() * 1000)
+
+    pdhLineEndX = time + ((pdLabelOffset + pdLabelGap) * timeframe.in_seconds() * 1000)
+
+
     if na(pdhLine)
 
         pdhLine := line.new(
              x1 = pdhTime,
              y1 = pdh,
-             x2 = time,
+             x2 = pdhLineEndX,
              y2 = pdh,
              xloc = xloc.bar_time,
-             extend = extend.right,
              color = pdhColor,
              width = lineWidth)
 
@@ -203,8 +489,9 @@ if showPDH and showPDLevels and not na(pdh)
 
         line.set_xy2(
              pdhLine,
-             time,
+             pdhLineEndX,
              pdh)
+
 
 
     if showPDLabels
@@ -212,19 +499,20 @@ if showPDH and showPDLevels and not na(pdh)
         if na(pdhLabel)
 
             pdhLabel := label.new(
-                 x = time,
+                 x = pdhLineEndX,
                  y = pdh,
-                 text = "PDH",
+                 text = pdhLabelText,
                  xloc = xloc.bar_time,
-                 style = label.style_label_left,
-                 color = pdhLabelColor,
-                 textcolor = color.white)
+                 style = label.style_none,
+                 textcolor = pdhLabelColor,
+                 textalign = text.align_left,
+                 size = pdLabelSize == "Normal" ? size.normal : pdLabelSize == "Small" ? size.small : size.tiny)
 
         else
 
             label.set_xy(
                  pdhLabel,
-                 time,
+                 pdhLineEndX,
                  pdh)
 
 
@@ -235,15 +523,19 @@ if showPDH and showPDLevels and not na(pdh)
 
 if showPDL and showPDLevels and not na(pdl)
 
+    pdlLabelX = time + (pdLabelOffset * timeframe.in_seconds() * 1000)
+
+    pdlLineEndX = time + ((pdLabelOffset + pdLabelGap) * timeframe.in_seconds() * 1000)
+
+
     if na(pdlLine)
 
         pdlLine := line.new(
              x1 = pdlTime,
              y1 = pdl,
-             x2 = time,
+             x2 = pdlLineEndX,
              y2 = pdl,
              xloc = xloc.bar_time,
-             extend = extend.right,
              color = pdlColor,
              width = lineWidth)
 
@@ -256,8 +548,9 @@ if showPDL and showPDLevels and not na(pdl)
 
         line.set_xy2(
              pdlLine,
-             time,
+             pdlLineEndX,
              pdl)
+
 
 
     if showPDLabels
@@ -265,22 +558,25 @@ if showPDL and showPDLevels and not na(pdl)
         if na(pdlLabel)
 
             pdlLabel := label.new(
-                 x = time,
+                 x = pdlLineEndX,
                  y = pdl,
-                 text = "PDL",
+                 text = pdlLabelText,
                  xloc = xloc.bar_time,
-                 style = label.style_label_left,
-                 color = pdlLabelColor,
-                 textcolor = color.white)
+                 style = label.style_none,
+                 textcolor = pdlLabelColor,
+                 textalign = text.align_left,
+                 size = pdLabelSize == "Normal" ? size.normal : pdLabelSize == "Small" ? size.small : size.tiny)
 
         else
 
             label.set_xy(
                  pdlLabel,
-                 time,
+                 pdlLineEndX,
                  pdl)
+
+
 //━━━━━━━━━━━━━━━━━━
-// WEEK ENGINE
+// PW LEVEL SETTINGS
 //━━━━━━━━━━━━━━━━━━
 
 showPWH = input.bool(true, "Show PWH")
@@ -289,11 +585,40 @@ showPWL = input.bool(true, "Show PWL")
 pwhColor = input.color(color.yellow, "PWH Color")
 pwlColor = input.color(color.purple, "PWL Color")
 
-weekLineWidth = input.int(2, "Week Line Width", minval=1, maxval=5)
-showPWLabels = input.bool(true, "Show PWH/PWL Labels")
+weekLineWidth = input.int(
+     2,
+     "Week Line Width",
+     minval = 1,
+     maxval = 5)
 
-pwhLabelColor = input.color(color.yellow, "PWH Label Color")
-pwlLabelColor = input.color(color.purple, "PWL Label Color")
+
+//━━━━━━━━━━━━━━━━━━
+// PW LABEL SETTINGS
+//━━━━━━━━━━━━━━━━━━
+
+showPWLabels = input.bool(
+     true,
+     "Show PWH/PWL Labels")
+
+
+pwLabelFormat = input.string(
+     "Short",
+     "PW Label Format",
+     options = ["Short", "Full"])
+
+
+pwhLabelColor = input.color(
+     color.yellow,
+     "PWH Label Color")
+
+
+pwlLabelColor = input.color(
+     color.purple,
+     "PWL Label Color")
+
+
+
+
 
 
 //━━━━━━━━━━━━━━━━━━
@@ -315,7 +640,7 @@ var int pwlTime = na
 
 
 
-nyWeek = weekofyear(time, "America/New_York")
+
 nyYearWeek = year(time, "America/New_York")
 
 weekID = nyYearWeek * 100 + nyWeek
@@ -380,15 +705,19 @@ var label pwlLabel = na
 
 if showPWH and showPWLevels and not na(pwh)
 
+    pwhLabelX = time + (pwLabelOffset * timeframe.in_seconds() * 1000)
+
+    pwhText = pwLabelFormat == "Full" ? "Previous Week High" : "PWH"
+
+
     if na(pwhLine)
 
         pwhLine := line.new(
              x1 = pwhTime,
              y1 = pwh,
-             x2 = time,
+             x2 = pwhLabelX,
              y2 = pwh,
              xloc = xloc.bar_time,
-             extend = extend.right,
              color = pwhColor,
              width = weekLineWidth)
 
@@ -401,7 +730,7 @@ if showPWH and showPWLevels and not na(pwh)
 
         line.set_xy2(
              pwhLine,
-             time,
+             pwhLabelX,
              pwh)
 
 
@@ -410,20 +739,22 @@ if showPWH and showPWLevels and not na(pwh)
         if na(pwhLabel)
 
             pwhLabel := label.new(
-                 x = time,
+                 x = pwhLabelX,
                  y = pwh,
-                 text = "PWH",
+                 text = pwhText,
                  xloc = xloc.bar_time,
-                 style = label.style_label_left,
-                 color = pwhLabelColor,
-                 textcolor = color.white)
+                 style = label.style_none,
+                 textcolor = pwhLabelColor,
+                 textalign = text.align_left,
+                 size = pwLabelSize == "Normal" ? size.normal : pwLabelSize == "Small" ? size.small : size.tiny)
 
         else
 
             label.set_xy(
                  pwhLabel,
-                 time,
+                 pwhLabelX,
                  pwh)
+
 
 
 //━━━━━━━━━━━━━━━━━━
@@ -432,15 +763,19 @@ if showPWH and showPWLevels and not na(pwh)
 
 if showPWL and showPWLevels and not na(pwl)
 
+    pwlLabelX = time + (pwLabelOffset * timeframe.in_seconds() * 1000)
+
+    pwlText = pwLabelFormat == "Full" ? "Previous Week Low" : "PWL"
+
+
     if na(pwlLine)
 
         pwlLine := line.new(
              x1 = pwlTime,
              y1 = pwl,
-             x2 = time,
+             x2 = pwlLabelX,
              y2 = pwl,
              xloc = xloc.bar_time,
-             extend = extend.right,
              color = pwlColor,
              width = weekLineWidth)
 
@@ -453,7 +788,7 @@ if showPWL and showPWLevels and not na(pwl)
 
         line.set_xy2(
              pwlLine,
-             time,
+             pwlLabelX,
              pwl)
 
 
@@ -462,24 +797,74 @@ if showPWL and showPWLevels and not na(pwl)
         if na(pwlLabel)
 
             pwlLabel := label.new(
-                 x = time,
+                 x = pwlLabelX,
                  y = pwl,
-                 text = "PWL",
+                 text = pwlText,
                  xloc = xloc.bar_time,
-                 style = label.style_label_left,
-                 color = pwlLabelColor,
-                 textcolor = color.white)
+                 style = label.style_none,
+                 textcolor = pwlLabelColor,
+                 textalign = text.align_left,
+                 size = pwLabelSize == "Normal" ? size.normal : pwLabelSize == "Small" ? size.small : size.tiny)
 
         else
 
             label.set_xy(
                  pwlLabel,
-                 time,
-                 pwl)    
+                 pwlLabelX,
+                 pwl)
                  
                 
             
-        
+  
+//━━━━━━━━━━━━━━━━━━
+// PM LEVEL SETTINGS
+//━━━━━━━━━━━━━━━━━━
+
+showPMH = input.bool(true, "Show PMH")
+showPML = input.bool(true, "Show PML")
+
+pmhColor = input.color(color.orange, "PMH Color")
+pmlColor = input.color(color.blue, "PML Color")
+
+monthLineWidth = input.int(2, "Month Line Width", minval=1, maxval=5)
+
+
+//━━━━━━━━━━━━━━━━━━
+// PM LABEL SETTINGS
+//━━━━━━━━━━━━━━━━━━
+
+showPMLabels = input.bool(
+     true,
+     "Show PMH/PML Labels")
+
+
+pmLabelFormat = input.string(
+     "Short",
+     "PM Label Format",
+     options = ["Short", "Full"])
+
+
+pmhLabelColor = input.color(
+     color.orange,
+     "PMH Label Color")
+
+
+pmlLabelColor = input.color(
+     color.blue,
+     "PML Label Color")
+
+
+pmLabelOffset = input.int(
+     3,
+     "PM Label Offset (bars)",
+     minval = 0,
+     maxval = 50)
+
+
+pmLabelSize = input.string(
+     "Tiny",
+     "PM Label Size",
+     options = ["Tiny", "Small", "Normal"])      
     
 //━━━━━━━━━━━━━━━━━━
 // MONTH ENGINE
@@ -499,21 +884,10 @@ var int pmhTime = na
 var int pmlTime = na
 
 
-// Source selection
-useWeeklyMonth = timeframe.isweekly or timeframe.ismonthly
 
 
-monthSourceTime = useWeeklyMonth ? time("W") : time("D")
 
-monthSourceHigh = useWeeklyMonth ? request.security(syminfo.tickerid, "W", high) : request.security(syminfo.tickerid, "D", high)
-
-monthSourceLow = useWeeklyMonth ? request.security(syminfo.tickerid, "W", low) : request.security(syminfo.tickerid, "D", low)
-
-
-monthValue = month(monthSourceTime, "America/New_York")
-yearValue = year(monthSourceTime, "America/New_York")
-
-monthID = yearValue * 100 + monthValue
+monthID = nyYear * 100 + nyMonth
 
 newMonth = monthID != monthID[1]
 
@@ -521,11 +895,11 @@ newMonth = monthID != monthID[1]
 
 if na(monthHigh)
 
-    monthHigh := monthSourceHigh
-    monthLow := monthSourceLow
+    monthHigh := high
+    monthLow := low
 
-    monthHighTime := monthSourceTime
-    monthLowTime := monthSourceTime
+    monthHighTime := time
+    monthLowTime := time
 
 
 else
@@ -539,28 +913,25 @@ else
         pmlTime := monthLowTime
 
 
-        monthHigh := monthSourceHigh
-        monthLow := monthSourceLow
+        monthHigh := high
+        monthLow := low
 
-        monthHighTime := monthSourceTime
-        monthLowTime := monthSourceTime
+        monthHighTime := time
+        monthLowTime := time
 
 
     else
 
-        if monthSourceHigh > monthHigh
+        if high > monthHigh
 
-            monthHigh := monthSourceHigh
-            monthHighTime := monthSourceTime
+            monthHigh := high
+            monthHighTime := time
 
 
-        if monthSourceLow < monthLow
+        if low < monthLow
 
-            monthLow := monthSourceLow
-            monthLowTime := monthSourceTime
-            
-        
-    
+            monthLow := low
+            monthLowTime := time
 
           
         
@@ -579,17 +950,21 @@ var label pmlLabel = na
 // DRAW PMH
 //━━━━━━━━━━━━━━━━━━
 
-if showPMH and not na(pmh)
+if showPMH and showPMLevels and not na(pmh)
+
+    pmhLabelX = time + (pmLabelOffset * timeframe.in_seconds() * 1000)
+
+    pmhText = pmLabelFormat == "Full" ? "Previous Month High" : "PMH"
+
 
     if na(pmhLine)
 
         pmhLine := line.new(
              x1 = pmhTime,
              y1 = pmh,
-             x2 = time,
+             x2 = pmhLabelX,
              y2 = pmh,
              xloc = xloc.bar_time,
-             extend = extend.right,
              color = pmhColor,
              width = monthLineWidth)
 
@@ -602,8 +977,9 @@ if showPMH and not na(pmh)
 
         line.set_xy2(
              pmhLine,
-             time,
+             pmhLabelX,
              pmh)
+
 
 
     if showPMLabels
@@ -611,36 +987,43 @@ if showPMH and not na(pmh)
         if na(pmhLabel)
 
             pmhLabel := label.new(
-                 x = time,
+                 x = pmhLabelX,
                  y = pmh,
-                 text = "PMH",
+                 text = pmhText,
                  xloc = xloc.bar_time,
-                 style = label.style_label_left,
-                 color = pmhLabelColor,
-                 textcolor = color.white)
+                 style = label.style_none,
+                 textcolor = pmhLabelColor,
+                 textalign = text.align_left,
+                 size = pmLabelSize == "Normal" ? size.normal : pmLabelSize == "Small" ? size.small : size.tiny)
 
         else
 
             label.set_xy(
                  pmhLabel,
-                 time,
+                 pmhLabelX,
                  pmh)
 
- //━━━━━━━━━━━━━━━━━━
+
+
+//━━━━━━━━━━━━━━━━━━
 // DRAW PML
 //━━━━━━━━━━━━━━━━━━
 
-if showPML and not na(pml)
+if showPML and showPMLevels and not na(pml)
+
+    pmlLabelX = time + (pmLabelOffset * timeframe.in_seconds() * 1000)
+
+    pmlText = pmLabelFormat == "Full" ? "Previous Month Low" : "PML"
+
 
     if na(pmlLine)
 
         pmlLine := line.new(
              x1 = pmlTime,
              y1 = pml,
-             x2 = time,
+             x2 = pmlLabelX,
              y2 = pml,
              xloc = xloc.bar_time,
-             extend = extend.right,
              color = pmlColor,
              width = monthLineWidth)
 
@@ -653,8 +1036,9 @@ if showPML and not na(pml)
 
         line.set_xy2(
              pmlLine,
-             time,
+             pmlLabelX,
              pml)
+
 
 
     if showPMLabels
@@ -662,19 +1046,20 @@ if showPML and not na(pml)
         if na(pmlLabel)
 
             pmlLabel := label.new(
-                 x = time,
+                 x = pmlLabelX,
                  y = pml,
-                 text = "PML",
+                 text = pmlText,
                  xloc = xloc.bar_time,
-                 style = label.style_label_left,
-                 color = pmlLabelColor,
-                 textcolor = color.white)
+                 style = label.style_none,
+                 textcolor = pmlLabelColor,
+                 textalign = text.align_left,
+                 size = pmLabelSize == "Normal" ? size.normal : pmLabelSize == "Small" ? size.small : size.tiny)
 
         else
 
             label.set_xy(
                  pmlLabel,
-                 time,
+                 pmlLabelX,
                  pml)   
                  
             
