@@ -1,6 +1,28 @@
 //@version=6
 indicator("ICT Liquidity Engine - Base", overlay=true, max_lines_count=50, max_labels_count=50)
 
+//━━━━━━━━━━━━━━━━━━
+// GLOBAL TIME ENGINE
+//━━━━━━━━━━━━━━━━━━
+
+nyYear = year(time, "America/New_York")
+nyMonth = month(time, "America/New_York")
+nyDay = dayofmonth(time, "America/New_York")
+nyWeek = weekofyear(time, "America/New_York")
+
+
+dayID = nyYear * 10000 + nyMonth * 100 + nyDay
+
+weekID = nyYear * 100 + nyWeek
+
+monthID = nyYear * 100 + nyMonth
+
+
+newDay = dayID != dayID[1]
+
+newWeek = weekID != weekID[1]
+
+newMonth = monthID != monthID[1]
 
 //━━━━━━━━━━━━━━━━━━
 // PD LEVEL SETTINGS
@@ -118,15 +140,6 @@ var float pdl = na
 
 var int pdhTime = na
 var int pdlTime = na
-
-
-nyDay = dayofmonth(time, "America/New_York")
-nyMonth = month(time, "America/New_York")
-nyYear = year(time, "America/New_York")
-
-dayID = nyYear * 10000 + nyMonth * 100 + nyDay
-
-newDay = dayID != dayID[1]
 
 
 if na(dayHigh)
@@ -346,22 +359,18 @@ var int openWeekTime = na
 
 nyWeekDay = dayofweek(time, "America/New_York")
 
-nyWeek = weekofyear(time, "America/New_York")
-
 
 openWeekID = nyYear * 100 + nyWeek
 
 newOpenWeek = openWeekID != openWeekID[1]
 
 
-// First bar of script
 if na(openWeek)
 
     openWeek := open
     openWeekTime := time
 
 
-// NY Monday = weekly open
 if newOpenWeek or (nyWeekDay == dayofweek.monday and nyWeekDay[1] != dayofweek.monday)
 
     openWeek := open
@@ -640,15 +649,6 @@ var int pwlTime = na
 
 
 
-
-nyYearWeek = year(time, "America/New_York")
-
-weekID = nyYearWeek * 100 + nyWeek
-
-newWeek = weekID != weekID[1]
-
-
-
 if na(weekHigh)
 
     weekHigh := high
@@ -882,14 +882,6 @@ var float pml = na
 
 var int pmhTime = na
 var int pmlTime = na
-
-
-
-
-
-monthID = nyYear * 100 + nyMonth
-
-newMonth = monthID != monthID[1]
 
 
 
