@@ -349,6 +349,7 @@ openWeekLabelSize = input.string(
      options = ["Tiny", "Small", "Normal"])
 
 
+
 //━━━━━━━━━━━━━━━━━━
 // OPEN WEEK ENGINE
 //━━━━━━━━━━━━━━━━━━
@@ -357,12 +358,16 @@ var float openWeek = na
 var int openWeekTime = na
 
 
-nyWeekDay = dayofweek(time, "America/New_York")
+nyWeekDay = dayofweek(
+     time,
+     "America/New_York")
 
 
-openWeekID = nyYear * 100 + nyWeek
+isMonday = nyWeekDay == dayofweek.monday
 
-newOpenWeek = openWeekID != openWeekID[1]
+wasMonday = nyWeekDay[1] == dayofweek.monday
+
+newOpenWeek = isMonday and not wasMonday
 
 
 if na(openWeek)
@@ -371,10 +376,23 @@ if na(openWeek)
     openWeekTime := time
 
 
-if newOpenWeek or (nyWeekDay == dayofweek.monday and nyWeekDay[1] != dayofweek.monday)
+if newOpenWeek
 
     openWeek := open
     openWeekTime := time
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// OPEN WEEK VISIBILITY
+//━━━━━━━━━━━━━━━━━━
+
+showOpenWeekTF =
+     timeframe.in_seconds() <= timeframe.in_seconds("240")
+
+showOpenWeekNow =
+     showOpenWeekTF and
+     not isMonday
 
 
 
@@ -383,6 +401,7 @@ if newOpenWeek or (nyWeekDay == dayofweek.monday and nyWeekDay[1] != dayofweek.m
 //━━━━━━━━━━━━━━━━━━
 
 var line openWeekLine = na
+
 var label openWeekLabel = na
 
 
@@ -391,9 +410,11 @@ var label openWeekLabel = na
 // DRAW OPEN WEEK
 //━━━━━━━━━━━━━━━━━━
 
-if showOpenWeek and not na(openWeek)
+if showOpenWeekNow and not na(openWeek)
 
-    lineEndTime = time + (openWeekLength * (time - time[1]))
+    lineEndTime =
+         time +
+         (openWeekLength * (time - time[1]))
 
 
     if na(openWeekLine)
@@ -442,6 +463,26 @@ if showOpenWeek and not na(openWeek)
                  openWeekLabel,
                  lineEndTime,
                  openWeek)
+
+
+//━━━━━━━━━━━━━━━━━━
+// HIDE OPEN WEEK
+//━━━━━━━━━━━━━━━━━━
+
+if not showOpenWeekNow
+
+    if not na(openWeekLine)
+
+        line.delete(openWeekLine)
+
+        openWeekLine := na
+
+
+    if not na(openWeekLabel)
+
+        label.delete(openWeekLabel)
+
+        openWeekLabel := na
 
 //━━━━━━━━━━━━━━━━━━
 // TIMEFRAME VISIBILITY
