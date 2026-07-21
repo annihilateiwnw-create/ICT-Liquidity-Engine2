@@ -25,102 +25,294 @@ newWeek = weekID != weekID[1]
 newMonth = monthID != monthID[1]
 
 //━━━━━━━━━━━━━━━━━━
-// PD LEVEL SETTINGS
+// LIQUIDITY LEVELS SETTINGS
 //━━━━━━━━━━━━━━━━━━
 
-showPDH = input.bool(true, "Show PDH")
-showPDL = input.bool(true, "Show PDL")
+//━━━━━━━━━━━━━━━━━━
+// PDH / PDL
+//━━━━━━━━━━━━━━━━━━
+
+showPDH = input.bool(
+     true,
+     "PDH",
+     group = "LIQUIDITY LEVELS")
 
 
 pdhColor = input.color(
      color.green,
-     "PDH Color")
+     "PDH Color",
+     group = "LIQUIDITY LEVELS")
+
+
+showPDL = input.bool(
+     true,
+     "PDL",
+     group = "LIQUIDITY LEVELS")
+
 
 pdlColor = input.color(
      color.red,
-     "PDL Color")
+     "PDL Color",
+     group = "LIQUIDITY LEVELS")
 
+
+
+//━━━━━━━━━━━━━━━━━━
+// PWH / PWL
+//━━━━━━━━━━━━━━━━━━
+
+showPWH = input.bool(
+     true,
+     "PWH",
+     group = "LIQUIDITY LEVELS")
+
+
+pwhColor = input.color(
+     color.yellow,
+     "PWH Color",
+     group = "LIQUIDITY LEVELS")
+
+
+showPWL = input.bool(
+     true,
+     "PWL",
+     group = "LIQUIDITY LEVELS")
+
+
+pwlColor = input.color(
+     color.purple,
+     "PWL Color",
+     group = "LIQUIDITY LEVELS")
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// PMH / PML
+//━━━━━━━━━━━━━━━━━━
+
+showPMH = input.bool(
+     true,
+     "PMH",
+     group = "LIQUIDITY LEVELS")
+
+
+pmhColor = input.color(
+     color.orange,
+     "PMH Color",
+     group = "LIQUIDITY LEVELS")
+
+
+showPML = input.bool(
+     true,
+     "PML",
+     group = "LIQUIDITY LEVELS")
+
+
+pmlColor = input.color(
+     color.blue,
+     "PML Color",
+     group = "LIQUIDITY LEVELS")
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// GENERAL LIQUIDITY SETTINGS
+//━━━━━━━━━━━━━━━━━━
 
 lineWidth = input.int(
      2,
      "PD Line Width",
      minval = 1,
-     maxval = 5)
+     maxval = 5,
+     group = "LIQUIDITY LEVELS")
 
 
+weekLineWidth = input.int(
+     2,
+     "PW Line Width",
+     minval = 1,
+     maxval = 5,
+     group = "LIQUIDITY LEVELS")
 
 
+monthLineWidth = input.int(
+     2,
+     "PM Line Width",
+     minval = 1,
+     maxval = 5,
+     group = "LIQUIDITY LEVELS")
 
-pwLabelOffset = input.int(
-     3,
-     "PW Label Offset (bars)",
+//━━━━━━━━━━━━━━━━━━
+// SWEPT LABEL COLOR
+//━━━━━━━━━━━━━━━━━━
+
+sweptLabelColor = input.color(
+     color.white,
+     "Swept Label Color",
+     group = "LIQUIDITY LEVELS")    
+
+sweepXOffset = input.int(
+     1,
+     "Sweep X Offset (bars)",
      minval = 0,
-     maxval = 50)
-
-
-pwLabelGap = input.int(
-     8,
-     "PW Label Gap (bars)",
-     minval = 0,
-     maxval = 50)
-
-
-pwLabelSize = input.string(
-     "Tiny",
-     "PW Label Size",
-     options = ["Tiny", "Small", "Normal"])
-
-
+     maxval = 10,
+     group = "LIQUIDITY LEVELS")
 
 
 
 //━━━━━━━━━━━━━━━━━━
-// PD LABEL SETTINGS
+// LABEL SETTINGS
 //━━━━━━━━━━━━━━━━━━
 
 showPDLabels = input.bool(
      true,
-     "Show PDH/PDL Labels")
+     "Show PDH/PDL Labels",
+     group = "LIQUIDITY LEVELS")
 
 
 pdhLabelText = input.string(
      "Previous Day High",
-     "PDH Label Text")
+     "PDH Label Text",
+     group = "LIQUIDITY LEVELS")
 
 
 pdlLabelText = input.string(
      "Previous Day Low",
-     "PDL Label Text")
+     "PDL Label Text",
+     group = "LIQUIDITY LEVELS")
 
 
 pdhLabelColor = input.color(
      color.green,
-     "PDH Label Color")
+     "PDH Label Color",
+     group = "LIQUIDITY LEVELS")
 
 
 pdlLabelColor = input.color(
      color.red,
-     "PDL Label Color")
+     "PDL Label Color",
+     group = "LIQUIDITY LEVELS")
 
 
 pdLabelOffset = input.int(
      3,
      "PD Label Offset (bars)",
      minval = 0,
-     maxval = 50)
+     maxval = 50,
+     group = "LIQUIDITY LEVELS")
 
 
 pdLabelGap = input.int(
      8,
      "PD Label Gap (bars)",
      minval = 0,
-     maxval = 50)
+     maxval = 50,
+     group = "LIQUIDITY LEVELS")
 
 
 pdLabelSize = input.string(
      "Tiny",
      "PD Label Size",
-     options = ["Tiny", "Small", "Normal"])
+     options = ["Tiny", "Small", "Normal"],
+     group = "LIQUIDITY LEVELS")
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// PW LABEL SETTINGS
+//━━━━━━━━━━━━━━━━━━
+
+showPWLabels = input.bool(
+     true,
+     "Show PWH/PWL Labels",
+     group = "LIQUIDITY LEVELS")
+
+
+pwLabelFormat = input.string(
+     "Short",
+     "PW Label Format",
+     options = ["Short", "Full"],
+     group = "LIQUIDITY LEVELS")
+
+
+pwhLabelColor = input.color(
+     color.yellow,
+     "PWH Label Color",
+     group = "LIQUIDITY LEVELS")
+
+
+pwlLabelColor = input.color(
+     color.purple,
+     "PWL Label Color",
+     group = "LIQUIDITY LEVELS")
+
+
+pwLabelOffset = input.int(
+     3,
+     "PW Label Offset (bars)",
+     minval = 0,
+     maxval = 50,
+     group = "LIQUIDITY LEVELS")
+
+
+pwLabelGap = input.int(
+     8,
+     "PW Label Gap (bars)",
+     minval = 0,
+     maxval = 50,
+     group = "LIQUIDITY LEVELS")
+
+
+pwLabelSize = input.string(
+     "Tiny",
+     "PW Label Size",
+     options = ["Tiny", "Small", "Normal"],
+     group = "LIQUIDITY LEVELS")
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// PM LABEL SETTINGS
+//━━━━━━━━━━━━━━━━━━
+
+showPMLabels = input.bool(
+     true,
+     "Show PMH/PML Labels",
+     group = "LIQUIDITY LEVELS")
+
+
+pmLabelFormat = input.string(
+     "Short",
+     "PM Label Format",
+     options = ["Short", "Full"],
+     group = "LIQUIDITY LEVELS")
+
+
+pmhLabelColor = input.color(
+     color.orange,
+     "PMH Label Color",
+     group = "LIQUIDITY LEVELS")
+
+
+pmlLabelColor = input.color(
+     color.blue,
+     "PML Label Color",
+     group = "LIQUIDITY LEVELS")
+
+
+pmLabelOffset = input.int(
+     3,
+     "PM Label Offset (bars)",
+     minval = 0,
+     maxval = 50,
+     group = "LIQUIDITY LEVELS")
+
+
+pmLabelSize = input.string(
+    "Tiny",
+     "PM Label Size",
+     options = ["Tiny", "Small", "Normal"],
+     group = "LIQUIDITY LEVELS")
 
 
 
@@ -181,48 +373,429 @@ else
 
             dayLow := low
             dayLowTime := time
+
+        
+    
 //━━━━━━━━━━━━━━━━━━
-// OPEN DAY SETTINGS
+// TIME LEVELS SETTINGS
+//━━━━━━━━━━━━━━━━━━
+
+show0830 = input.bool(
+     true,
+     "Show 08:30 NY")
+
+
+show0930 = input.bool(
+     true,
+     "Show 09:30 NY")
+
+
+time0830Color = input.color(
+     color.gray,
+     "08:30 NY Color")
+
+
+time0930Color = input.color(
+     color.gray,
+     "09:30 NY Color")
+
+
+time0830LabelColor = input.color(
+     color.gray,
+     "08:30 NY Label Color")
+
+
+time0930LabelColor = input.color(
+     color.gray,
+     "09:30 NY Label Color")
+
+
+timeLevelWidth = input.int(
+     1,
+     "Time Level Width",
+     minval = 1,
+     maxval = 5)
+
+
+showTimeLevelLabels = input.bool(
+     true,
+     "Show Time Level Labels")
+
+
+timeLevelLabelSize = input.string(
+     "Tiny",
+     "Time Level Label Size",
+     options = ["Tiny", "Small", "Normal"])
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// TIME LEVELS ENGINE
+//━━━━━━━━━━━━━━━━━━
+
+var float open0830 = na
+var float open0930 = na
+
+var int open0830Time = na
+var int open0930Time = na
+
+
+nyHour = hour(
+     time,
+     "America/New_York")
+
+
+nyMinute = minute(
+     time,
+     "America/New_York")
+
+
+is0830 = nyHour == 8 and nyMinute == 30
+
+is0930 = nyHour == 9 and nyMinute == 30
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// RESET AT NEW NY DAY
+//━━━━━━━━━━━━━━━━━━
+
+if newDay
+
+    open0830 := na
+    open0930 := na
+
+    open0830Time := na
+    open0930Time := na
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// CAPTURE 08:30 OPEN
+//━━━━━━━━━━━━━━━━━━
+
+if is0830
+
+    open0830 := open
+    open0830Time := time
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// CAPTURE 09:30 OPEN
+//━━━━━━━━━━━━━━━━━━
+
+if is0930
+
+    open0930 := open
+    open0930Time := time
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// TIMEFRAME VISIBILITY
+//━━━━━━━━━━━━━━━━━━
+
+showTimeLevelsTF =
+     timeframe.in_seconds() <= timeframe.in_seconds("240")
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// TIME LEVEL OBJECTS
+//━━━━━━━━━━━━━━━━━━
+
+var line open0830Line = na
+var line open0930Line = na
+
+var label open0830Label = na
+var label open0930Label = na
+
+
+//━━━━━━━━━━━━━━━━━━
+// DELETE OLD TIME LEVELS AT NEW NY DAY
+//━━━━━━━━━━━━━━━━━━
+
+if newDay
+
+    if not na(open0830Line)
+
+        line.delete(open0830Line)
+
+        open0830Line := na
+
+
+    if not na(open0930Line)
+
+        line.delete(open0930Line)
+
+        open0930Line := na
+
+
+    if not na(open0830Label)
+
+        label.delete(open0830Label)
+
+        open0830Label := na
+
+
+    if not na(open0930Label)
+
+        label.delete(open0930Label)
+
+        open0930Label := na
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// DRAW 08:30 NY
+//━━━━━━━━━━━━━━━━━━
+
+if show0830 and showTimeLevelsTF and not na(open0830)
+
+    if na(open0830Line)
+
+        open0830Line := line.new(
+             x1 = open0830Time,
+             y1 = open0830,
+             x2 = time,
+             y2 = open0830,
+             xloc = xloc.bar_time,
+             color = time0830Color,
+             width = timeLevelWidth,
+             style = line.style_dotted)
+
+    else
+
+        line.set_xy1(
+             open0830Line,
+             open0830Time,
+             open0830)
+
+        line.set_xy2(
+             open0830Line,
+             time,
+             open0830)
+
+
+
+    if showTimeLevelLabels
+
+        if na(open0830Label)
+
+            open0830Label := label.new(
+                 x = time,
+                 y = open0830,
+                 text = "08:30",
+                 xloc = xloc.bar_time,
+                 style = label.style_none,
+                 color = na,
+                 textcolor = time0830LabelColor,
+                 size = timeLevelLabelSize == "Normal" ? size.normal : timeLevelLabelSize == "Small" ? size.small : size.tiny)
+
+        else
+
+            label.set_xy(
+                 open0830Label,
+                 time,
+                 open0830)
+
+                
+            
+        
+    
+//━━━━━━━━━━━━━━━━━━
+// DRAW 09:30 NY
+//━━━━━━━━━━━━━━━━━━
+
+if show0930 and showTimeLevelsTF and not na(open0930)
+
+    if na(open0930Line)
+
+        open0930Line := line.new(
+             x1 = open0930Time,
+             y1 = open0930,
+             x2 = time,
+             y2 = open0930,
+             xloc = xloc.bar_time,
+             color = time0930Color,
+             width = timeLevelWidth,
+             style = line.style_dotted)
+
+    else
+
+        line.set_xy1(
+             open0930Line,
+             open0930Time,
+             open0930)
+
+        line.set_xy2(
+             open0930Line,
+             time,
+             open0930)
+
+
+
+    if showTimeLevelLabels
+
+        if na(open0930Label)
+
+            open0930Label := label.new(
+                 x = time,
+                 y = open0930,
+                 text = "09:30",
+                 xloc = xloc.bar_time,
+                 style = label.style_none,
+                 color = na,
+                 textcolor = time0930LabelColor,
+                 size = timeLevelLabelSize == "Normal" ? size.normal : timeLevelLabelSize == "Small" ? size.small : size.tiny)
+
+        else
+
+            label.set_xy(
+                 open0930Label,
+                 time,
+                 open0930)
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// HIDE TIME LEVELS
+//━━━━━━━━━━━━━━━━━━
+
+if not showTimeLevelsTF
+
+    if not na(open0830Line)
+
+        line.delete(open0830Line)
+
+        open0830Line := na
+
+
+    if not na(open0930Line)
+
+        line.delete(open0930Line)
+
+        open0930Line := na
+
+
+    if not na(open0830Label)
+
+        label.delete(open0830Label)
+
+        open0830Label := na
+
+
+    if not na(open0930Label)
+
+        label.delete(open0930Label)
+
+        open0930Label := na
+//━━━━━━━━━━━━━━━━━━
+// OPEN LEVELS SETTINGS
+//━━━━━━━━━━━━━━━━━━
+
+//━━━━━━━━━━━━━━━━━━
+// OPEN DAY
 //━━━━━━━━━━━━━━━━━━
 
 showOpenDay = input.bool(
      true,
-     "Show Open Day")
+     "Open Day",
+     group = "OPEN LEVELS")
 
 
 openDayColor = input.color(
      color.gray,
-     "Open Day Color")
+     "Open Day Color",
+     group = "OPEN LEVELS")
 
 
 openDayLabelColor = input.color(
      color.gray,
-     "Open Day Label Color")
+     "Open Day Label Color",
+     group = "OPEN LEVELS")
 
 
 openDayWidth = input.int(
      1,
      "Open Day Width",
      minval = 1,
-     maxval = 5)
+     maxval = 5,
+     group = "OPEN LEVELS")
 
 
 openDayLength = input.int(
      5,
      "Open Day Length (bars)",
      minval = 2,
-     maxval = 50)
+     maxval = 50,
+     group = "OPEN LEVELS")
 
 
 showOpenDayLabel = input.bool(
      true,
-     "Show Open Day Label")
+     "Show Open Day Label",
+     group = "OPEN LEVELS")
 
 
 openDayLabelSize = input.string(
      "Tiny",
      "Open Day Label Size",
-     options = ["Tiny", "Small", "Normal"])
+     options = ["Tiny", "Small", "Normal"],
+     group = "OPEN LEVELS")
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// OPEN WEEK
+//━━━━━━━━━━━━━━━━━━
+
+showOpenWeek = input.bool(
+     true,
+     "Open Week",
+     group = "OPEN LEVELS")
+
+
+openWeekColor = input.color(
+     color.gray,
+     "Open Week Color",
+     group = "OPEN LEVELS")
+
+
+openWeekLabelColor = input.color(
+     color.gray,
+     "Open Week Label Color",
+     group = "OPEN LEVELS")
+
+
+openWeekWidth = input.int(
+     1,
+     "Open Week Width",
+     minval = 1,
+     maxval = 5,
+     group = "OPEN LEVELS")
+
+
+openWeekLength = input.int(
+     5,
+     "Open Week Length (bars)",
+     minval = 2,
+     maxval = 50,
+     group = "OPEN LEVELS")
+
+
+showOpenWeekLabel = input.bool(
+     true,
+     "Show Open Week Label",
+     group = "OPEN LEVELS")
+
+
+openWeekLabelSize = input.string(
+     "Tiny",
+     "Open Week Label Size",
+     options = ["Tiny", "Small", "Normal"],
+     group = "OPEN LEVELS")
 //━━━━━━━━━━━━━━━━━━
 // OPEN DAY ENGINE
 //━━━━━━━━━━━━━━━━━━
@@ -304,52 +877,6 @@ if showOpenDay and not na(openDay)
                  openDayLabel,
                  lineEndTime,
                  openDay)
-
-//━━━━━━━━━━━━━━━━━━
-// OPEN WEEK SETTINGS
-//━━━━━━━━━━━━━━━━━━
-
-showOpenWeek = input.bool(
-     true,
-     "Show Open Week")
-
-
-openWeekColor = input.color(
-     color.gray,
-     "Open Week Color")
-
-
-openWeekLabelColor = input.color(
-     color.gray,
-     "Open Week Label Color")
-
-
-openWeekWidth = input.int(
-     1,
-     "Open Week Width",
-     minval = 1,
-     maxval = 5)
-
-
-openWeekLength = input.int(
-     5,
-     "Open Week Length (bars)",
-     minval = 2,
-     maxval = 50)
-
-
-showOpenWeekLabel = input.bool(
-     true,
-     "Show Open Week Label")
-
-
-openWeekLabelSize = input.string(
-     "Tiny",
-     "Open Week Label Size",
-     options = ["Tiny", "Small", "Normal"])
-
-
-
 //━━━━━━━━━━━━━━━━━━
 // OPEN WEEK ENGINE
 //━━━━━━━━━━━━━━━━━━
@@ -509,14 +1036,73 @@ var label pdlLabel = na
 
 
 //━━━━━━━━━━━━━━━━━━
+// PDH / PDL SWEEP ENGINE
+//━━━━━━━━━━━━━━━━━━
+
+var bool pdhSwept = false
+var bool pdlSwept = false
+
+var int pdhSweepTime = na
+var int pdlSweepTime = na
+
+var label pdhSweptLabel = na
+var label pdlSweptLabel = na
+
+
+//━━━━━━━━━━━━━━━━━━
+// RESET SWEEP STATUS AT NEW DAY
+//━━━━━━━━━━━━━━━━━━
+
+if newDay
+
+    pdhSwept := false
+    pdlSwept := false
+
+    pdhSweepTime := na
+    pdlSweepTime := na
+
+    if not na(pdhSweptLabel)
+        label.delete(pdhSweptLabel)
+        pdhSweptLabel := na
+
+    if not na(pdlSweptLabel)
+        label.delete(pdlSweptLabel)
+        pdlSweptLabel := na
+
+
+//━━━━━━━━━━━━━━━━━━
+// DETECT PDH SWEEP
+//━━━━━━━━━━━━━━━━━━
+
+if not pdhSwept and not na(pdh)
+
+    if high >= pdh
+
+        pdhSwept := true
+        pdhSweepTime := time
+
+
+//━━━━━━━━━━━━━━━━━━
+// DETECT PDL SWEEP
+//━━━━━━━━━━━━━━━━━━
+
+if not pdlSwept and not na(pdl)
+
+    if low <= pdl
+
+        pdlSwept := true
+        pdlSweepTime := time
+
+
+//━━━━━━━━━━━━━━━━━━
 // DRAW PDH
 //━━━━━━━━━━━━━━━━━━
 
 if showPDH and showPDLevels and not na(pdh)
 
-    pdhLabelX = time + (pdLabelOffset * timeframe.in_seconds() * 1000)
+    pdhLineEndX = pdhSwept and not na(pdhSweepTime) ? pdhSweepTime : time + ((pdLabelOffset + pdLabelGap) * timeframe.in_seconds() * 1000)
 
-    pdhLineEndX = time + ((pdLabelOffset + pdLabelGap) * timeframe.in_seconds() * 1000)
+    pdhSweepX = pdhSwept and not na(pdhSweepTime) ? pdhSweepTime + (sweepXOffset * timeframe.in_seconds() * 1000) : na
 
 
     if na(pdhLine)
@@ -527,8 +1113,9 @@ if showPDH and showPDLevels and not na(pdh)
              x2 = pdhLineEndX,
              y2 = pdh,
              xloc = xloc.bar_time,
-             color = pdhColor,
-             width = lineWidth)
+             color = pdhSwept ? color.new(pdhColor, 60) : pdhColor,
+             width = lineWidth,
+             style = pdhSwept ? line.style_dotted : line.style_solid)
 
     else
 
@@ -542,9 +1129,21 @@ if showPDH and showPDLevels and not na(pdh)
              pdhLineEndX,
              pdh)
 
+        line.set_color(
+             pdhLine,
+             pdhSwept ? color.new(pdhColor, 60) : pdhColor)
+
+        line.set_style(
+             pdhLine,
+             pdhSwept ? line.style_dotted : line.style_solid)
 
 
-    if showPDLabels
+
+    //━━━━━━━━━━━━━━━━━━
+    // ACTIVE PDH LABEL
+    //━━━━━━━━━━━━━━━━━━
+
+    if showPDLabels and not pdhSwept
 
         if na(pdhLabel)
 
@@ -566,6 +1165,38 @@ if showPDH and showPDLevels and not na(pdh)
                  pdh)
 
 
+    
+//━━━━━━━━━━━━━━━━━━
+// SWEPT PDH LABEL
+//━━━━━━━━━━━━━━━━━━
+
+if pdhSwept and not na(pdhSweepTime)
+
+    if not na(pdhLabel)
+
+        label.delete(pdhLabel)
+        pdhLabel := na
+
+
+    if na(pdhSweptLabel)
+
+        pdhSweptLabel := label.new(
+             x = pdhSweepTime - (sweepXOffset * timeframe.in_seconds() * 1000),
+             y = pdh,
+             text = "PDH X",
+             xloc = xloc.bar_time,
+             style = label.style_none,
+             textcolor = sweptLabelColor,
+             textalign = text.align_left,
+             size = size.normal)
+
+    else
+
+        label.set_xy(
+             pdhSweptLabel,
+             pdhSweepTime - (sweepXOffset * timeframe.in_seconds() * 1000),
+             pdh)
+
 
 //━━━━━━━━━━━━━━━━━━
 // DRAW PDL
@@ -573,9 +1204,9 @@ if showPDH and showPDLevels and not na(pdh)
 
 if showPDL and showPDLevels and not na(pdl)
 
-    pdlLabelX = time + (pdLabelOffset * timeframe.in_seconds() * 1000)
+    pdlLineEndX = pdlSwept and not na(pdlSweepTime) ? pdlSweepTime : time + ((pdLabelOffset + pdLabelGap) * timeframe.in_seconds() * 1000)
 
-    pdlLineEndX = time + ((pdLabelOffset + pdLabelGap) * timeframe.in_seconds() * 1000)
+    pdlSweepX = pdlSwept and not na(pdlSweepTime) ? pdlSweepTime + (sweepXOffset * timeframe.in_seconds() * 1000) : na
 
 
     if na(pdlLine)
@@ -586,8 +1217,9 @@ if showPDL and showPDLevels and not na(pdl)
              x2 = pdlLineEndX,
              y2 = pdl,
              xloc = xloc.bar_time,
-             color = pdlColor,
-             width = lineWidth)
+             color = pdlSwept ? color.new(pdlColor, 60) : pdlColor,
+width = lineWidth,
+             style = pdlSwept ? line.style_dotted : line.style_solid)
 
     else
 
@@ -601,9 +1233,21 @@ if showPDL and showPDLevels and not na(pdl)
              pdlLineEndX,
              pdl)
 
+        line.set_color(
+             pdlLine,
+             pdlSwept ? color.new(pdlColor, 60) : pdlColor)
+
+        line.set_style(
+             pdlLine,
+             pdlSwept ? line.style_dotted : line.style_solid)
 
 
-    if showPDLabels
+
+    //━━━━━━━━━━━━━━━━━━
+    // ACTIVE PDL LABEL
+    //━━━━━━━━━━━━━━━━━━
+
+    if showPDLabels and not pdlSwept
 
         if na(pdlLabel)
 
@@ -625,51 +1269,38 @@ if showPDL and showPDLevels and not na(pdl)
                  pdl)
 
 
-//━━━━━━━━━━━━━━━━━━
-// PW LEVEL SETTINGS
-//━━━━━━━━━━━━━━━━━━
-
-showPWH = input.bool(true, "Show PWH")
-showPWL = input.bool(true, "Show PWL")
-
-pwhColor = input.color(color.yellow, "PWH Color")
-pwlColor = input.color(color.purple, "PWL Color")
-
-weekLineWidth = input.int(
-     2,
-     "Week Line Width",
-     minval = 1,
-     maxval = 5)
-
-
-//━━━━━━━━━━━━━━━━━━
-// PW LABEL SETTINGS
+    //━━━━━━━━━━━━━━━━━━
+// SWEPT PDL LABEL
 //━━━━━━━━━━━━━━━━━━
 
-showPWLabels = input.bool(
-     true,
-     "Show PWH/PWL Labels")
+if pdlSwept and not na(pdlSweepTime)
+
+    if not na(pdlLabel)
+
+        label.delete(pdlLabel)
+        pdlLabel := na
 
 
-pwLabelFormat = input.string(
-     "Short",
-     "PW Label Format",
-     options = ["Short", "Full"])
+    if na(pdlSweptLabel)
 
+        pdlSweptLabel := label.new(
+             x = pdlSweepTime - (sweepXOffset * timeframe.in_seconds() * 1000),
+             y = pdl,
+             text = "PDL X",
+             xloc = xloc.bar_time,
+             style = label.style_none,
+             textcolor = sweptLabelColor,
+             textalign = text.align_left,
+             size = size.normal)
 
-pwhLabelColor = input.color(
-     color.yellow,
-     "PWH Label Color")
+    else
 
+        label.set_xy(
+             pdlSweptLabel,
+             pdlSweepTime - (sweepXOffset * timeframe.in_seconds() * 1000),
+             pdl)
 
-pwlLabelColor = input.color(
-     color.purple,
-     "PWL Label Color")
-
-
-
-
-
+                
 
 //━━━━━━━━━━━━━━━━━━
 // WEEK DATA
@@ -689,6 +1320,24 @@ var int pwhTime = na
 var int pwlTime = na
 
 
+//━━━━━━━━━━━━━━━━━━
+// PWH / PWL SWEEP STATE
+//━━━━━━━━━━━━━━━━━━
+
+var bool pwhSwept = false
+var bool pwlSwept = false
+
+var int pwhSweepTime = na
+var int pwlSweepTime = na
+
+var label pwhSweptLabel = na
+var label pwlSweptLabel = na
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// BUILD CURRENT WEEK HIGH / LOW
+//━━━━━━━━━━━━━━━━━━
 
 if na(weekHigh)
 
@@ -703,12 +1352,37 @@ else
 
     if newWeek
 
+        // Previous week becomes final PWH / PWL
+
         pwh := weekHigh
         pwl := weekLow
 
         pwhTime := weekHighTime
         pwlTime := weekLowTime
 
+
+        // Reset sweep state for new previous-week levels
+
+        pwhSwept := false
+        pwlSwept := false
+
+        pwhSweepTime := na
+        pwlSweepTime := na
+
+
+        if not na(pwhSweptLabel)
+
+            label.delete(pwhSweptLabel)
+            pwhSweptLabel := na
+
+
+        if not na(pwlSweptLabel)
+
+            label.delete(pwlSweptLabel)
+            pwlSweptLabel := na
+
+
+        // Start tracking new current week
 
         weekHigh := high
         weekLow := low
@@ -731,6 +1405,33 @@ else
             weekLowTime := time
 
 
+
+//━━━━━━━━━━━━━━━━━━
+// DETECT PWH SWEEP
+//━━━━━━━━━━━━━━━━━━
+
+if not pwhSwept and not na(pwh)
+
+    if high >= pwh
+
+        pwhSwept := true
+        pwhSweepTime := time
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// DETECT PWL SWEEP
+//━━━━━━━━━━━━━━━━━━
+
+if not pwlSwept and not na(pwl)
+
+    if low <= pwl
+
+        pwlSwept := true
+        pwlSweepTime := time
+
+
+
 //━━━━━━━━━━━━━━━━━━
 // WEEK DRAW OBJECTS
 //━━━━━━━━━━━━━━━━━━
@@ -740,15 +1441,21 @@ var line pwlLine = na
 
 var label pwhLabel = na
 var label pwlLabel = na
+
+
+
 //━━━━━━━━━━━━━━━━━━
 // DRAW PWH
 //━━━━━━━━━━━━━━━━━━
 
 if showPWH and showPWLevels and not na(pwh)
 
-    pwhLabelX = time + (pwLabelOffset * timeframe.in_seconds() * 1000)
+    pwhLabelX = pwhSwept and not na(pwhSweepTime) ? pwhSweepTime + (sweepXOffset * timeframe.in_seconds() * 1000) : time + (pwLabelOffset * timeframe.in_seconds() * 1000)
+
+    pwhLineEndX = pwhSwept and not na(pwhSweepTime) ? pwhSweepTime : time + (pwLabelOffset * timeframe.in_seconds() * 1000)
 
     pwhText = pwLabelFormat == "Full" ? "Previous Week High" : "PWH"
+
 
 
     if na(pwhLine)
@@ -756,11 +1463,12 @@ if showPWH and showPWLevels and not na(pwh)
         pwhLine := line.new(
              x1 = pwhTime,
              y1 = pwh,
-             x2 = pwhLabelX,
+             x2 = pwhLineEndX,
              y2 = pwh,
              xloc = xloc.bar_time,
-             color = pwhColor,
-             width = weekLineWidth)
+             color = pwhSwept ? color.new(pwhColor, 60) : pwhColor,
+             width = weekLineWidth,
+             style = pwhSwept ? line.style_dotted : line.style_solid)
 
     else
 
@@ -771,11 +1479,24 @@ if showPWH and showPWLevels and not na(pwh)
 
         line.set_xy2(
              pwhLine,
-             pwhLabelX,
+             pwhLineEndX,
              pwh)
 
+        line.set_color(
+             pwhLine,
+             pwhSwept ? color.new(pwhColor, 60) : pwhColor)
 
-    if showPWLabels
+        line.set_style(
+             pwhLine,
+             pwhSwept ? line.style_dotted : line.style_solid)
+
+
+
+    //━━━━━━━━━━━━━━━━━━
+    // ACTIVE PWH LABEL
+    //━━━━━━━━━━━━━━━━━━
+
+    if showPWLabels and not pwhSwept
 
         if na(pwhLabel)
 
@@ -798,15 +1519,51 @@ if showPWH and showPWLevels and not na(pwh)
 
 
 
+   
+//━━━━━━━━━━━━━━━━━━
+// SWEPT PWH LABEL
+//━━━━━━━━━━━━━━━━━━
+
+if pwhSwept and not na(pwhSweepTime)
+
+    if not na(pwhLabel)
+
+        label.delete(pwhLabel)
+        pwhLabel := na
+
+
+    if na(pwhSweptLabel)
+
+        pwhSweptLabel := label.new(
+             x = pwhSweepTime - (sweepXOffset * timeframe.in_seconds() * 1000),
+             y = pwh,
+             text = "PWH X",
+             xloc = xloc.bar_time,
+             style = label.style_none,
+             textcolor = sweptLabelColor,
+             textalign = text.align_left,
+             size = size.normal)
+
+    else
+
+        label.set_xy(
+             pwhSweptLabel,
+             pwhSweepTime - (sweepXOffset * timeframe.in_seconds() * 1000),
+             pwh)
+
+
 //━━━━━━━━━━━━━━━━━━
 // DRAW PWL
 //━━━━━━━━━━━━━━━━━━
 
 if showPWL and showPWLevels and not na(pwl)
 
-    pwlLabelX = time + (pwLabelOffset * timeframe.in_seconds() * 1000)
+    pwlLabelX = pwlSwept and not na(pwlSweepTime) ? pwlSweepTime + (sweepXOffset * timeframe.in_seconds() * 1000) : time + (pwLabelOffset * timeframe.in_seconds() * 1000)
+
+    pwlLineEndX = pwlSwept and not na(pwlSweepTime) ? pwlSweepTime : time + (pwLabelOffset * timeframe.in_seconds() * 1000)
 
     pwlText = pwLabelFormat == "Full" ? "Previous Week Low" : "PWL"
+
 
 
     if na(pwlLine)
@@ -814,11 +1571,12 @@ if showPWL and showPWLevels and not na(pwl)
         pwlLine := line.new(
              x1 = pwlTime,
              y1 = pwl,
-             x2 = pwlLabelX,
+             x2 = pwlLineEndX,
              y2 = pwl,
              xloc = xloc.bar_time,
-             color = pwlColor,
-             width = weekLineWidth)
+             color = pwlSwept ? color.new(pwlColor, 60) : pwlColor,
+             width = weekLineWidth,
+             style = pwlSwept ? line.style_dotted : line.style_solid)
 
     else
 
@@ -829,11 +1587,24 @@ if showPWL and showPWLevels and not na(pwl)
 
         line.set_xy2(
              pwlLine,
-             pwlLabelX,
+             pwlLineEndX,
              pwl)
 
+        line.set_color(
+             pwlLine,
+             pwlSwept ? color.new(pwlColor, 60) : pwlColor)
 
-    if showPWLabels
+        line.set_style(
+             pwlLine,
+             pwlSwept ? line.style_dotted : line.style_solid)
+
+
+
+    //━━━━━━━━━━━━━━━━━━
+    // ACTIVE PWL LABEL
+    //━━━━━━━━━━━━━━━━━━
+
+    if showPWLabels and not pwlSwept
 
         if na(pwlLabel)
 
@@ -853,60 +1624,40 @@ if showPWL and showPWLevels and not na(pwl)
                  pwlLabel,
                  pwlLabelX,
                  pwl)
-                 
-                
-            
-  
-//━━━━━━━━━━━━━━━━━━
-// PM LEVEL SETTINGS
-//━━━━━━━━━━━━━━━━━━
-
-showPMH = input.bool(true, "Show PMH")
-showPML = input.bool(true, "Show PML")
-
-pmhColor = input.color(color.orange, "PMH Color")
-pmlColor = input.color(color.blue, "PML Color")
-
-monthLineWidth = input.int(2, "Month Line Width", minval=1, maxval=5)
 
 
-//━━━━━━━━━━━━━━━━━━
-// PM LABEL SETTINGS
-//━━━━━━━━━━━━━━━━━━
-
-showPMLabels = input.bool(
-     true,
-     "Show PMH/PML Labels")
-
-
-pmLabelFormat = input.string(
-     "Short",
-     "PM Label Format",
-     options = ["Short", "Full"])
-
-
-pmhLabelColor = input.color(
-     color.orange,
-     "PMH Label Color")
-
-
-pmlLabelColor = input.color(
-     color.blue,
-     "PML Label Color")
-
-
-pmLabelOffset = input.int(
-     3,
-     "PM Label Offset (bars)",
-     minval = 0,
-     maxval = 50)
-
-
-pmLabelSize = input.string(
-     "Tiny",
-     "PM Label Size",
-     options = ["Tiny", "Small", "Normal"])      
     
+//━━━━━━━━━━━━━━━━━━
+// SWEPT PWL LABEL
+//━━━━━━━━━━━━━━━━━━
+
+if pwlSwept and not na(pwlSweepTime)
+
+    if not na(pwlLabel)
+
+        label.delete(pwlLabel)
+        pwlLabel := na
+
+
+    if na(pwlSweptLabel)
+
+        pwlSweptLabel := label.new(
+             x = pwlSweepTime - (sweepXOffset * timeframe.in_seconds() * 1000),
+             y = pwl,
+             text = "PWL X",
+             xloc = xloc.bar_time,
+             style = label.style_none,
+             textcolor = sweptLabelColor,
+             textalign = text.align_left,
+             size = size.normal)
+
+    else
+
+        label.set_xy(
+             pwlSweptLabel,
+             pwlSweepTime - (sweepXOffset * timeframe.in_seconds() * 1000),
+             pwl)
+                       
 //━━━━━━━━━━━━━━━━━━
 // MONTH ENGINE
 //━━━━━━━━━━━━━━━━━━
@@ -926,6 +1677,25 @@ var int pmlTime = na
 
 
 
+//━━━━━━━━━━━━━━━━━━
+// PMH / PML SWEEP STATE
+//━━━━━━━━━━━━━━━━━━
+
+var bool pmhSwept = false
+var bool pmlSwept = false
+
+var int pmhSweepTime = na
+var int pmlSweepTime = na
+
+var label pmhSweptLabel = na
+var label pmlSweptLabel = na
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// BUILD CURRENT MONTH HIGH / LOW
+//━━━━━━━━━━━━━━━━━━
+
 if na(monthHigh)
 
     monthHigh := high
@@ -939,12 +1709,37 @@ else
 
     if newMonth
 
+        // Previous month becomes final PMH / PML
+
         pmh := monthHigh
         pml := monthLow
 
         pmhTime := monthHighTime
         pmlTime := monthLowTime
 
+
+        // Reset sweep state for new previous-month levels
+
+        pmhSwept := false
+        pmlSwept := false
+
+        pmhSweepTime := na
+        pmlSweepTime := na
+
+
+        if not na(pmhSweptLabel)
+
+            label.delete(pmhSweptLabel)
+            pmhSweptLabel := na
+
+
+        if not na(pmlSweptLabel)
+
+            label.delete(pmlSweptLabel)
+            pmlSweptLabel := na
+
+
+        // Start tracking new current month
 
         monthHigh := high
         monthLow := low
@@ -966,9 +1761,34 @@ else
             monthLow := low
             monthLowTime := time
 
-          
-        
-    
+
+
+//━━━━━━━━━━━━━━━━━━
+// DETECT PMH SWEEP
+//━━━━━━━━━━━━━━━━━━
+
+if not pmhSwept and not na(pmh)
+
+    if high >= pmh
+
+        pmhSwept := true
+        pmhSweepTime := time
+
+
+
+//━━━━━━━━━━━━━━━━━━
+// DETECT PML SWEEP
+//━━━━━━━━━━━━━━━━━━
+
+if not pmlSwept and not na(pml)
+
+    if low <= pml
+
+        pmlSwept := true
+        pmlSweepTime := time
+
+
+
 //━━━━━━━━━━━━━━━━━━
 // MONTH DRAW OBJECTS
 //━━━━━━━━━━━━━━━━━━
@@ -979,15 +1799,18 @@ var line pmlLine = na
 var label pmhLabel = na
 var label pmlLabel = na
 
+
+
 //━━━━━━━━━━━━━━━━━━
 // DRAW PMH
 //━━━━━━━━━━━━━━━━━━
 
 if showPMH and showPMLevels and not na(pmh)
 
-    pmhLabelX = time + (pmLabelOffset * timeframe.in_seconds() * 1000)
+    pmhLineEndX = pmhSwept and not na(pmhSweepTime) ? pmhSweepTime : time + (pmLabelOffset * timeframe.in_seconds() * 1000)
 
     pmhText = pmLabelFormat == "Full" ? "Previous Month High" : "PMH"
+
 
 
     if na(pmhLine)
@@ -995,11 +1818,12 @@ if showPMH and showPMLevels and not na(pmh)
         pmhLine := line.new(
              x1 = pmhTime,
              y1 = pmh,
-             x2 = pmhLabelX,
+             x2 = pmhLineEndX,
              y2 = pmh,
              xloc = xloc.bar_time,
-             color = pmhColor,
-             width = monthLineWidth)
+             color = pmhSwept ? color.new(pmhColor, 60) : pmhColor,
+             width = monthLineWidth,
+             style = pmhSwept ? line.style_dotted : line.style_solid)
 
     else
 
@@ -1010,12 +1834,26 @@ if showPMH and showPMLevels and not na(pmh)
 
         line.set_xy2(
              pmhLine,
-             pmhLabelX,
+             pmhLineEndX,
              pmh)
 
+        line.set_color(
+             pmhLine,
+             pmhSwept ? color.new(pmhColor, 60) : pmhColor)
+
+        line.set_style(
+             pmhLine,
+             pmhSwept ? line.style_dotted : line.style_solid)
 
 
-    if showPMLabels
+
+    //━━━━━━━━━━━━━━━━━━
+    // ACTIVE PMH LABEL
+    //━━━━━━━━━━━━━━━━━━
+
+    if showPMLabels and not pmhSwept
+
+        pmhLabelX = time + (pmLabelOffset * timeframe.in_seconds() * 1000)
 
         if na(pmhLabel)
 
@@ -1038,15 +1876,50 @@ if showPMH and showPMLevels and not na(pmh)
 
 
 
+    
+//━━━━━━━━━━━━━━━━━━
+// SWEPT PMH LABEL
+//━━━━━━━━━━━━━━━━━━
+
+if pmhSwept and not na(pmhSweepTime)
+
+    if not na(pmhLabel)
+
+        label.delete(pmhLabel)
+        pmhLabel := na
+
+
+    if na(pmhSweptLabel)
+
+        pmhSweptLabel := label.new(
+             x = pmhSweepTime - (sweepXOffset * timeframe.in_seconds() * 1000),
+             y = pmh,
+             text = "PMH X",
+             xloc = xloc.bar_time,
+             style = label.style_none,
+             textcolor = sweptLabelColor,
+             textalign = text.align_left,
+             size = size.normal)
+
+    else
+
+        label.set_xy(
+             pmhSweptLabel,
+             pmhSweepTime - (sweepXOffset * timeframe.in_seconds() * 1000),
+             pmh)
+
+
+
 //━━━━━━━━━━━━━━━━━━
 // DRAW PML
 //━━━━━━━━━━━━━━━━━━
 
 if showPML and showPMLevels and not na(pml)
 
-    pmlLabelX = time + (pmLabelOffset * timeframe.in_seconds() * 1000)
+    pmlLineEndX = pmlSwept and not na(pmlSweepTime) ? pmlSweepTime : time + (pmLabelOffset * timeframe.in_seconds() * 1000)
 
     pmlText = pmLabelFormat == "Full" ? "Previous Month Low" : "PML"
+
 
 
     if na(pmlLine)
@@ -1054,11 +1927,12 @@ if showPML and showPMLevels and not na(pml)
         pmlLine := line.new(
              x1 = pmlTime,
              y1 = pml,
-             x2 = pmlLabelX,
+             x2 = pmlLineEndX,
              y2 = pml,
              xloc = xloc.bar_time,
-             color = pmlColor,
-             width = monthLineWidth)
+             color = pmlSwept ? color.new(pmlColor, 60) : pmlColor,
+             width = monthLineWidth,
+             style = pmlSwept ? line.style_dotted : line.style_solid)
 
     else
 
@@ -1069,12 +1943,26 @@ if showPML and showPMLevels and not na(pml)
 
         line.set_xy2(
              pmlLine,
-             pmlLabelX,
+             pmlLineEndX,
              pml)
 
+        line.set_color(
+             pmlLine,
+             pmlSwept ? color.new(pmlColor, 60) : pmlColor)
+
+        line.set_style(
+             pmlLine,
+             pmlSwept ? line.style_dotted : line.style_solid)
 
 
-    if showPMLabels
+
+    //━━━━━━━━━━━━━━━━━━
+    // ACTIVE PML LABEL
+    //━━━━━━━━━━━━━━━━━━
+
+    if showPMLabels and not pmlSwept
+
+        pmlLabelX = time + (pmLabelOffset * timeframe.in_seconds() * 1000)
 
         if na(pmlLabel)
 
@@ -1093,7 +1981,41 @@ if showPML and showPMLevels and not na(pml)
             label.set_xy(
                  pmlLabel,
                  pmlLabelX,
-                 pml)   
+                 pml)
+
+
+
+    
+//━━━━━━━━━━━━━━━━━━
+// SWEPT PML LABEL
+//━━━━━━━━━━━━━━━━━━
+
+if pmlSwept and not na(pmlSweepTime)
+
+    if not na(pmlLabel)
+
+        label.delete(pmlLabel)
+        pmlLabel := na
+
+
+    if na(pmlSweptLabel)
+
+        pmlSweptLabel := label.new(
+             x = pmlSweepTime - (sweepXOffset * timeframe.in_seconds() * 1000),
+             y = pml,
+             text = "PML X",
+             xloc = xloc.bar_time,
+             style = label.style_none,
+             textcolor = sweptLabelColor,
+             textalign = text.align_left,
+             size = size.normal)
+
+    else
+
+        label.set_xy(
+             pmlSweptLabel,
+             pmlSweepTime - (sweepXOffset * timeframe.in_seconds() * 1000),
+             pml)   
                  
             
         
